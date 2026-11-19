@@ -3,20 +3,93 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Sunset Poster Studio — turn your photos into a poster cover</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <div>
+      <h1>Sunset Poster Studio</h1>
+      <p>Your photos, golden hour, one poster cover.</p>
+    </div>
+  </div>
+  <p class="privacy-note">Photos stay on this machine. Nothing is uploaded.</p>
+</header>
+<main class="studio">
+  <section class="preview-pane" aria-label="Live preview">
+    <div class="preview-head">
+      <h2>Live preview</h2>
+      <p id="active-panel-label" role="status">Panel: Hero — click a panel, then drag to move its photo</p>
+    </div>
+    <canvas id="preview" width="960" height="540" aria-label="Poster preview"></canvas>
+    <p class="preview-hint">Drag inside the preview to pan the selected panel. Use the zoom slider to crop tighter.</p>
+    <div class="size-picker" role="group" aria-label="Preview size">
+      <span>Preview size</span>
+      <button type="button" data-size="0" class="size-btn is-on">Square</button>
+      <button type="button" data-size="1" class="size-btn">Portrait</button>
+      <button type="button" data-size="2" class="size-btn">Landscape</button>
+    </div>
+    <section class="card export-card">
+      <h2>Export PNG</h2>
+      <div class="export-row">
+        <button type="button" data-export="0" class="export-btn">1080 × 1080</button>
+        <button type="button" data-export="1" class="export-btn">1080 × 1350</button>
+        <button type="button" data-export="2" class="export-btn">1920 × 1080</button>
+      </div>
+      <p id="export-status" class="muted" role="status">Pick a size to download your poster.</p>
+    </section>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+  <aside class="controls" aria-label="Poster controls">
+    <section class="card">
+      <h2>1 · Photos</h2>
+      <label class="file-label">Choose photos from your machine
+        <input id="photo-input" type="file" accept="image/*" multiple>
+      </label>
+      <button id="load-samples" type="button" class="ghost-btn">Load the two sample photos</button>
+      <p id="photo-count" class="muted" role="status">No photos yet.</p>
+    </section>
+    <section class="card">
+      <h2>2 · Panels</h2>
+      <p class="muted">One photo can fill several panels. Pick a photo per panel.</p>
+      <div id="panel-rows"></div>
+      <label>Zoom for the selected panel
+        <input id="zoom-slider" type="range" min="1" max="3" step="0.05" value="1">
+      </label>
+      <div class="layout-row" role="group" aria-label="Panel layout">
+        <button type="button" data-layout="left" class="layout-btn is-on">Hero on the left</button>
+        <button type="button" data-layout="top" class="layout-btn">Hero on top</button>
+      </div>
+    </section>
+    <section class="card">
+      <h2>3 · Colour grade</h2>
+      <div class="grade-row" role="group" aria-label="Colour grade">
+        <button type="button" data-grade="sunset" class="grade-btn is-on">Sunset</button>
+        <button type="button" data-grade="neon" class="grade-btn">Neon</button>
+        <button type="button" data-grade="noir" class="grade-btn">Noir</button>
+      </div>
+    </section>
+    <section class="card">
+      <h2>4 · Caption</h2>
+      <label>Title
+        <input id="caption-input" type="text" maxlength="28" value="SUNSET DRIVE">
+      </label>
+      <label>Sub-caption
+        <input id="subtitle-input" type="text" maxlength="48" value="Three frames, one golden hour">
+      </label>
+      <label>Title size
+        <input id="title-size" type="range" min="0.7" max="1.4" step="0.05" value="1">
+      </label>
+      <label>Letter spacing
+        <input id="title-gap" type="range" min="0" max="16" step="1" value="6">
+      </label>
+      <label>Title colour
+        <input id="title-color" type="color" value="#ffffff">
+      </label>
+    </section>
+  </aside>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
